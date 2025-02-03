@@ -1,0 +1,13 @@
+<h1>Welcome to Expense Tracker</h1>
+
+<% if (errors && errors.length > 0) { %>
+  <% errors.forEach((err) => { %>
+    <div style="color: red;">Error: <%= err %></div>
+  <% }) %>
+<% } %>
+
+<% if (info && info.length > 0) { %>
+  <% info.forEach((msg) => { %>
+    <div style="color: green;">Info: <%= msg %></div>
+  <% }) %>
+<% } %>
