@@ -1,80 +1,72 @@
-// Import required modules
-require("dotenv").config(); // Loads environment variables from .env file
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session")(session); // MongoDB store for sessions
-const app = express();
-
-// Set the view engine to EJS
-app.set("view engine", "ejs");
-
-// Middleware to parse the body of incoming requests
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// MongoDB URI from environment variables
-const url = process.env.MONGO_URI; // Mongo URI from .env file
-
-// Set up MongoDB session store
-const store = new MongoDBStore({
-  uri: url, // URI for MongoDB connection
-  collection: "mySessions", // The name of the collection to store session data
-});
-
-// Import required modules
+const MongoDBStore = require("connect-mongodb-session")(session);
+const passport = require("passport");
 const flash = require("connect-flash");
 
-// Handle MongoDB store errors
-store.on("error", function (error) {
-  console.log(error); // Log any errors related to MongoDB store
+const app = express();
+
+
+app.set("view engine", "ejs");
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
+const url = process.env.MONGO_URI;
+const store = new MongoDBStore({
+  uri: url,
+  collection: "mySessions",
 });
 
-// Session configuration
+store.on("error", function (error) {
+  console.log(error);
+});
+
 const sessionParms = {
-  secret: process.env.SESSION_SECRET, // Secret key from .env file
-  resave: true, // Resave session even if it wasn't modified
-  saveUninitialized: true, // Save session even if it is empty
-  store: store, // Store sessions in MongoDB
-  cookie: { secure: false, sameSite: "strict" }, // Cookie settings
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  store: store,
+  cookie: { secure: false, sameSite: "strict" },
 };
 
-// For production environments, enable secure cookies
 if (app.get("env") === "production") {
-  app.set("trust proxy", 1); // Trust first proxy
-  sessionParms.cookie.secure = true; // Enable secure cookies
+  app.set("trust proxy", 1);
+  sessionParms.cookie.secure = true;
 }
 
-// Apply session middleware with MongoDB store
 app.use(session(sessionParms));
-app.use(require("connect-flash")());
+app.use(flash());
 
-// GET route to display the secret word
-app.get("/secretWord", (req, res) => {
-  if (!req.session.secretWord) {
-    req.session.secretWord = "syzygy";
-  }
-  res.locals.info = req.flash("info");
-  res.locals.errors = req.flash("error");
 
-  res.render("secretWord", {
-    secretWord: req.session.secretWord,
+const passportInit = require("./passport/passportInit");
+passportInit();
+app.use(passport.initialize());
+app.use(passport.session()); 
+
+
+app.use((req, res, next) => {
+  console.log("Current User:", req.user);
+  next();
+});
+
+app.use(require("./middleware/storeLocals"));
+app.get("/", (req, res) => {
+  res.render("index");
+});
+app.use("/sessions", require("./routes/sessionRoutes"));
+
+const auth = require("./middleware/auth");
+const secretWordRouter = require("./routes/secretWord");
+
+app.use("/secretWord", auth, secretWordRouter);
+
+(async () => {
+  await require("./db/connect")(process.env.MONGO_URI);
+  const PORT = 3000;
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
   });
-});
-
-// POST route to update the secret word
-app.post("/secretWord", (req, res) => {
-  if (req.body.secretWord.toUpperCase()[0] == "P") {
-    req.flash("error", "That word won't work!");
-    req.flash("error", "You can't use words that start with p.");
-  } else {
-    req.session.secretWord = req.body.secretWord;
-    req.flash("info", "The secret word was changed.");
-  }
-  res.redirect("/secretWord");
-});
-
-// Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`); // Log the server URL
-});
+})();
