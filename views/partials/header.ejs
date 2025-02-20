@@ -1,23 +1,25 @@
-<h1>Welcome to Expense Tracker</h1>
-
-<% if (user) { %>
-  <p>User <%= user.name %> is logged on.</p>
-  <form method="POST" action="/sessions/logoff">
-  <button>Logoff</button>
-  </form>
-<% } %>
-<% if (errors) {
-   errors.forEach((err) => { %>
-     <div>
-       Error: <%= err %>
-     </div>
-   <% })
- } %>
- <% if (info) {
-   info.forEach((msg) => { %>
-     <div>
-       Info: <%= msg %>
-     </div>
-   <% })
- } %>
-<hr />
+<div>
+  <h1>Expense Tracker</h1>
+  <% if (user) { %>
+      <p>User <strong><%= user.name %></strong> is logged on.</p>
+      <form method="POST" action="/sessions/logoff">
+        <input type="hidden" name="_csrf" value="<%= _csrf %>">
+          <button>Logoff</button>
+      </form>
+  <% } %>
+  <% if (errors) { %>
+      <% errors.forEach((err) => { %>
+          <div>
+              Error: <%= err %>
+          </div>
+      <% }) %>
+  <% } %>
+  <% if (info) { %>
+      <% info.forEach((msg) => { %>
+          <div>
+              Info: <%= msg %>
+          </div>
+      <% }) %>
+  <% } %>
+  <hr />
+</div>

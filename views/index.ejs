@@ -1,9 +1,12 @@
 <%- include("partials/head.ejs") %>
 <%- include("partials/header.ejs") %>
-<% if (user) { %>
-    <a href="/secretWord">Click this link to view/change the secret word.</a>
-<% } else { %>
-    <a href="/sessions/logon">Click this link to logon.</a>
-    <a href="/sessions/register">Click this link to register.</a>
-<% } %>
+<div>
+    <% if (user) { %>
+        <a href="/secretWord">View/Change the Secret Word</a>
+        <a href="/expenses">View/Change Expenses List</a>
+    <% } else { %>
+        <a href="/sessions/logon">Logon</a>
+        <a href="/sessions/register">Register</a>
+    <% } %>
+</div>
 <%- include("partials/footer.ejs") %>
