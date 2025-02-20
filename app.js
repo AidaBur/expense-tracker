@@ -114,7 +114,7 @@ const expensesRouter = require("./routes/expenses"); // Changed to /expenses
 app.use("/expenses", auth, expensesRouter);  // Replaced /jobs with /expenses
 
 // Start server
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 const start = async () => {
     try {
