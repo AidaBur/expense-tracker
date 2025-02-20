@@ -8,9 +8,9 @@ const xss = require('xss-clean');
 
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
-const cookieParser = require("cookie-parser"); // Added
-const csrf = require("host-csrf"); // Added
-const path = require("path"); // Import the `path` module
+const cookieParser = require("cookie-parser"); 
+const csrf = require("host-csrf"); 
+const path = require("path"); 
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
@@ -27,12 +27,11 @@ app.use(limiter);
 app.use(express.json());
 app.use(xss());
 
-// No need for serving static files since you don't have public assets (like styles or JS)
 app.set("view engine", "ejs");
 app.use(require("body-parser").urlencoded({ extended: true }));
 
 // Cookie parser
-app.use(cookieParser(process.env.SESSION_SECRET)); // Added
+app.use(cookieParser(process.env.SESSION_SECRET)); 
 
 // Session middleware setup
 const url = process.env.MONGO_URI;
@@ -111,8 +110,12 @@ const secretWordRouter = require("./routes/secretWord");
 app.use("/secretWord", auth, secretWordRouter);
 
 // Update routes for expenses
-const expensesRouter = require("./routes/expenses"); // Changed to /expenses
-app.use("/expenses", auth, expensesRouter);  // Replaced /jobs with /expenses
+const expensesRouter = require("./routes/expenses"); 
+app.use("/expenses", auth, expensesRouter);  
+
+
+const errorHandlerMiddleware = require('./middleware/error-handler');
+app.use(errorHandlerMiddleware);
 
 // Start server
 const PORT = process.env.PORT || 3002;
