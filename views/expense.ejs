@@ -9,7 +9,13 @@
     <input type="number" id="amount" name="amount" value="<%= expense ? expense.amount : '' %>" required autofocus>
     
     <label for="category">Category</label>
-    <input type="text" id="category" name="category" value="<%= expense ? expense.category : '' %>" required>
+    <select id="category" name="category" required>
+        <option value="Food" <%= expense && expense.category === "Food" ? "selected" : "" %>>Food</option>
+        <option value="Transport" <%= expense && expense.category === "Transport" ? "selected" : "" %>>Transport</option>
+        <option value="Entertainment" <%= expense && expense.category === "Entertainment" ? "selected" : "" %>>Entertainment</option>
+        <option value="Utilities" <%= expense && expense.category === "Utilities" ? "selected" : "" %>>Utilities</option>
+        <option value="Other" <%= expense && expense.category === "Other" ? "selected" : "" %>>Other</option>
+    </select>
     
     <label for="description">Description</label>
     <input type="text" id="description" name="description" value="<%= expense ? expense.description : '' %>" required>

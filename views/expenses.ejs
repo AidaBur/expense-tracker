@@ -14,16 +14,19 @@
         <thead>
             <tr>
                 <th>Category</th>
-                <th>Description</th>
                 <th>Amount</th>
                 <th colspan="3"></th>
             </tr>
             <tr id="expenses-table-header">
                 <th>
-                    <input type="text" name="category" placeholder="Filter by Category" value="<%= categoryFilter %>">
-                </th>
-                <th>
-                    <input type="text" name="description" placeholder="Filter by Description" value="<%= descriptionFilter %>">
+                    <select name="category">
+                        <option value="">Filter by Category</option>
+                        <option value="Food" <% if (categoryFilter === "Food") { %> selected <% } %>>Food</option>
+                        <option value="Transport" <% if (categoryFilter === "Transport") { %> selected <% } %>>Transport</option>
+                        <option value="Entertainment" <% if (categoryFilter === "Entertainment") { %> selected <% } %>>Entertainment</option>
+                        <option value="Utilities" <% if (categoryFilter === "Utilities") { %> selected <% } %>>Utilities</option>
+                        <option value="Other" <% if (categoryFilter === "Other") { %> selected <% } %>>Other</option>
+                    </select>
                 </th>
                 <th>
                     <input type="number" name="amount" placeholder="Filter by Amount" value="<%= amountFilter %>">
@@ -39,7 +42,6 @@
                 <% expenses.forEach((expense) => { %>
                     <tr>
                         <td><%= expense.category %></td>
-                        <td><%= expense.description %></td>
                         <td><%= expense.amount %></td>
                         <td>
                             <a href="/expenses/<%= expense._id %>"><button type="button">Show Expense</button></a>

@@ -13,6 +13,7 @@ const csrf = require("host-csrf"); // Added
 const path = require("path"); // Import the `path` module
 
 const app = express();
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('trust proxy', 1);
 

@@ -1,12 +1,25 @@
 <%- include("partials/head.ejs") %>
 <%- include("partials/header.ejs") %>
-<div>
-    <% if (user) { %>
-        <a href="/secretWord">View/Change the Secret Word</a>
-        <a href="/expenses">View/Change Expenses List</a>
-    <% } else { %>
-        <a href="/sessions/logon">Logon</a>
-        <a href="/sessions/register">Register</a>
-    <% } %>
+
+<div class="main-content">
+    <h1>Expense Tracker</h1>
+    <div>
+        <% if (user) { %>
+            <a href="/secretWord">View/Change the Secret Word</a>
+            <a href="/expenses">View/Change Expenses List</a>
+        <% } else { %>
+            <a href="/sessions/logon">
+                <button>Logon</button>
+            </a>
+            <a href="/sessions/register">
+                <button>Register</button>
+            </a>
+        <% } %>
+    </div>
 </div>
+
+<footer>
+    <p>Expense Tracker App - All Rights Reserved © 2025</p>
+</footer>
+
 <%- include("partials/footer.ejs") %>
