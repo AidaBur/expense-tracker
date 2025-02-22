@@ -1,85 +1,161 @@
-
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; 
-    min-height: 100vh; 
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-
-.main-content {
+.header-container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: flex; 
+    align-items: center; 
+    /* width: 100%; */
+    max-width: 1200px; 
+    margin: 0 auto; 
+    position: fixed;
+    top: 0;
+    right: 0; 
+    background-color: #fff;
+    z-index: 1000;
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+    padding: 10px;
+  }
+  
+  .user-info {
+    display: flex;
     align-items: center;
-    flex-grow: 1; 
-    padding: 20px;
-}
-
-
-h1 {
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
-
-button {
-    padding: 10px 20px;
+    font-size: 18px;
+    color: #333;
+    margin-right: 10px; 
+  }
+  
+  .user-info i {
+    font-size: 24px;
+    margin-right: 10px; 
+    color: #4CAF50;
+  }
+  
+  .logoff-form {
+    display: flex;
+    align-items: center;
+    margin-left: 5px; 
+  }
+  
+  .logoff-button {
+    padding: 8px 16px;
     font-size: 16px;
     cursor: pointer;
     border: none;
-    background-color: #4CAF50;
+    background-color: #f44336;
     color: white;
     border-radius: 5px;
-    margin: 10px;
+  }
+  
+  .logoff-button:hover {
+    background-color: #d32f2f;
+  }
+  
+  .logoff-button i {
+    margin-right: 5px;
+  }
+  
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  padding: 20px;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.main-button {
+  padding: 15px 30px;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 5px;
+  margin-bottom: 40px;
+  margin-top: 40px;
+}
+
+.main-button:hover {
+  background-color: #45a049;
+}
+
+.secret-link {
+  font-size: 14px;
+  color: #4caf50;
+  text-decoration: none;
+  margin-top: 40px;
+  transition: color 0.3s;
+}
+
+.secret-link:hover {
+  color: #45a049;
+}
+
+h1 {
+  margin-bottom: 0px;
+  padding-bottom: 0;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 5px;
+  margin: 10px;
 }
 
 button:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
-
 
 footer {
-    text-align: center;
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+  text-align: center;
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
-
 
 a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
-
 
 form {
-    width: 100%;
-    max-width: 400px; 
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f4f4f4;
-    border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
 }
-
 
 input[type="email"],
 input[type="password"],
 input[type="text"],
 input[type="date"],
 input[type="number"] {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  width: 100%;
+  padding: 10px;
+  /* margin: 8px 0; */
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 input[type="email"]:focus,
@@ -87,7 +163,157 @@ input[type="password"]:focus,
 input[type="text"]:focus,
 input[type="date"]:focus,
 input[type="number"]:focus {
-    outline: none;
-    border-color: #4CAF50;
+  outline: none;
+  border-color: #4caf50;
 }
 
+hr {
+  border: none;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.expenses-container {
+  /* width: 100%; */
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.show-expense-button {
+  background-color: transparent;
+  border: none;
+  padding: 8px 16px;
+}
+
+.show-expense-button i {
+  color: #4caf50;
+}
+
+.show-expense-button:hover {
+  opacity: 0.7;
+}
+
+.edit-expense-button {
+  background-color: transparent;
+  border: none;
+  padding: 8px 16px;
+}
+
+.edit-expense-button i {
+  color: #888;
+}
+
+.edit-expense-button:hover {
+  opacity: 0.7;
+}
+
+.delete-expense-button {
+  background-color: transparent;
+  border: none;
+  padding: 8px 16px;
+}
+
+.delete-expense-button i {
+  color: #888;
+}
+
+.delete-expense-button:hover {
+  opacity: 0.7;
+}
+
+select,
+input[type="number"] {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 200px;
+  /* margin-bottom: 10px; */
+}
+
+.pagination{
+    padding-top: 40px;
+}
+.pagination a,
+.pagination button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    margin: 0 5px;
+}
+
+.pagination a:hover,
+.pagination button:hover {
+    background-color: #45a049;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed
+}
+
+/* .expenses-table {
+    margin-bottom: 1000px;
+} */
+
+
+.filters {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    gap: 20px; 
+    flex-wrap: nowrap; 
+    margin-bottom: 20px;
+}
+
+
+.filter-category,
+.filter-amount {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 200px; 
+}
+
+
+.apply-filters-button,
+.clear-filters-link {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+.apply-filters-button {
+    background-color: #4CAF50;
+    color: white;
+    margin-left: 30px;
+    border: 1px solid #4CAF50;
+}
+
+
+.clear-filters-link {
+    display: inline-block;
+    color: #4CAF50;
+    text-decoration: none;
+    background-color: transparent;
+    border: 1px solid #4CAF50;
+    padding: 10px 20px;
+}
+
+
+.clear-filters-link:hover {
+    background-color: #f1f1f1;
+    color: #45a049;
+}

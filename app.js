@@ -3,23 +3,24 @@ require("express-async-errors");
 require("dotenv").config(); // Load environment variables
 
 // extra security packages
-const rateLimiter = require('express-rate-limit').default || require('express-rate-limit');
-const xss = require('xss-clean');
+const rateLimiter =
+  require("express-rate-limit").default || require("express-rate-limit");
+const xss = require("xss-clean");
 
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
-const cookieParser = require("cookie-parser"); 
-const csrf = require("host-csrf"); 
-const path = require("path"); 
+const cookieParser = require("cookie-parser");
+const csrf = require("host-csrf");
+const path = require("path");
 
 const app = express();
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.set('trust proxy', 1);
+app.set("trust proxy", 1);
 
 const limiter = rateLimiter({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
 });
 
 app.use(limiter);
@@ -31,30 +32,30 @@ app.set("view engine", "ejs");
 app.use(require("body-parser").urlencoded({ extended: true }));
 
 // Cookie parser
-app.use(cookieParser(process.env.SESSION_SECRET)); 
+app.use(cookieParser(process.env.SESSION_SECRET));
 
 // Session middleware setup
 const url = process.env.MONGO_URI;
 
 const store = new MongoDBStore({
-    uri: url,
-    collection: "mySessions",
+  uri: url,
+  collection: "mySessions",
 });
 store.on("error", function (error) {
-    console.log(error);
+  console.log(error);
 });
 
 const sessionParms = {
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    store: store,
-    cookie: { secure: false, sameSite: "strict" },
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  store: store,
+  cookie: { secure: false, sameSite: "strict" },
 };
 
 if (app.get("env") === "production") {
-    app.set("trust proxy", 1); // trust first proxy
-    sessionParms.cookie.secure = true; // serve secure cookies
+  app.set("trust proxy", 1); // trust first proxy
+  sessionParms.cookie.secure = true; // serve secure cookies
 }
 
 app.use(session(sessionParms));
@@ -73,34 +74,36 @@ app.use(require("./middleware/storeLocals"));
 // CSRF Middleware Setup
 let csrf_development_mode = true;
 if (app.get("env") === "production") {
-    csrf_development_mode = false;
-    app.set("trust proxy", 1);
+  csrf_development_mode = false;
+  app.set("trust proxy", 1);
 }
 
 const csrf_options = {
-    protected_operations: ["PATCH", "POST", "DELETE"],
-    protected_content_types: ["application/json", "application/x-www-form-urlencoded"],
-    development_mode: csrf_development_mode,
+  protected_operations: ["PATCH", "POST", "DELETE"],
+  protected_content_types: [
+    "application/json",
+    "application/x-www-form-urlencoded",
+  ],
+  development_mode: csrf_development_mode,
 };
 
-const csrf_middleware = csrf(csrf_options); // 
-app.use(csrf_middleware); // 
+const csrf_middleware = csrf(csrf_options); //
+app.use(csrf_middleware); //
 
 // CSRF Token Logger
 app.use((req, res, next) => {
-    console.log(
-        csrf_development_mode
-            ? "CSRF protection is not secure because HTTP is used. Use HTTPS in production."
-            : "CSRF protection enabled securely."
-    );
-    res.locals._csrf = csrf.token(req, res); 
-    next();
+  console.log(
+    csrf_development_mode
+      ? "CSRF protection is not secure because HTTP is used. Use HTTPS in production."
+      : "CSRF protection enabled securely."
+  );
+  res.locals._csrf = csrf.token(req, res);
+  next();
 });
-
 
 // Routes
 app.get("/", (req, res) => {
-    res.render("index");
+  res.render("index");
 });
 
 app.use("/sessions", require("./routes/sessionRoutes"));
@@ -110,25 +113,24 @@ const secretWordRouter = require("./routes/secretWord");
 app.use("/secretWord", auth, secretWordRouter);
 
 // Update routes for expenses
-const expensesRouter = require("./routes/expenses"); 
-app.use("/expenses", auth, expensesRouter);  
+const expensesRouter = require("./routes/expenses");
+app.use("/expenses", auth, expensesRouter);
 
-
-const errorHandlerMiddleware = require('./middleware/error-handler');
+const errorHandlerMiddleware = require("./middleware/error-handler");
 app.use(errorHandlerMiddleware);
 
 // Start server
 const PORT = process.env.PORT || 3002;
 
 const start = async () => {
-    try {
-        await require("./db/connect")(process.env.MONGO_URI);
-        app.listen(PORT, () =>
-            console.log(`Server running on http://localhost:${PORT}`)
-        );
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    await require("./db/connect")(process.env.MONGO_URI);
+    app.listen(PORT, () =>
+      console.log(`Server running on http://localhost:${PORT}`)
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 start();

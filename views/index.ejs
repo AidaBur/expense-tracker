@@ -1,12 +1,17 @@
+<!-- index.ejs -->
+
 <%- include("partials/head.ejs") %>
 <%- include("partials/header.ejs") %>
 
 <div class="main-content">
-    <h1>Expense Tracker</h1>
-    <div>
+    <h1>Welcome back! <br>Glad to see you, Again!</h1>
+    <div class="links">
         <% if (user) { %>
-            <a href="/secretWord">View/Change the Secret Word</a>
-            <a href="/expenses">View/Change Expenses List</a>
+            <a href="/expenses">
+                <button class="main-button">All Expenses</button>
+            </a>
+            <br>
+            <a href="/secretWord" class="secret-link">The Secret Word</a>
         <% } else { %>
             <a href="/sessions/logon">
                 <button>Logon</button>

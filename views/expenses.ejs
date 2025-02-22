@@ -1,88 +1,105 @@
 <%- include("partials/head.ejs") %>
 <%- include("partials/header.ejs") %>
 
-<h2>Expenses List</h2>
+<div class="main-content">
+    <h1>Expenses List</h1>
 
-<div style="margin-bottom: 20px;">
-    <a href="/expenses/form">
-        <button type="button">Add New Expense</button>
-    </a>
-</div>
+    <div>
+        <a href="/expenses/form">
+            <button type="button" class="main-button">Add New Expense</button>
+        </a>
+    </div>
 
-<form method="GET" action="/expenses" style="display:inline;">
-    <table id="expenses-table">
-        <thead>
-            <tr>
-                <th>Category</th>
-                <th>Amount</th>
-                <th colspan="3"></th>
-            </tr>
-            <tr id="expenses-table-header">
-                <!-- Category Filter -->
-                <th>
-                    <select name="category">
-                        <option value="">Filter by Category</option>
-                        <option value="Food" <% if (categoryFilter === "Food") { %> selected <% } %>>Food</option>
-                        <option value="Transport" <% if (categoryFilter === "Transport") { %> selected <% } %>>Transport</option>
-                        <option value="Entertainment" <% if (categoryFilter === "Entertainment") { %> selected <% } %>>Entertainment</option>
-                        <option value="Utilities" <% if (categoryFilter === "Utilities") { %> selected <% } %>>Utilities</option>
-                        <option value="Other" <% if (categoryFilter === "Other") { %> selected <% } %>>Other</option>
-                    </select>
-                </th>
-                <!-- Amount Filter -->
-                <th>
-                    <input type="number" name="amount" placeholder="Filter by Amount" value="<%= amountFilter %>">
-                </th>
-                <th colspan="3">
-                    <button type="submit" style="margin-top: 5px;">Apply Filters</button>
-                    <a href="/expenses" style="margin-top: 5px;">Reset Filters</a>
-                </th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <% if (expenses && expenses.length) { %>
-                <% expenses.forEach((expense) => { %>
-                    <tr>
-                        <td><%= expense.category %></td>
-                        <td><%= expense.amount %></td>
-                        <td>
-                            <a href="/expenses/<%= expense._id %>"><button type="button">Show Expense</button></a>
-                        </td>
-                        <td>
-                            <a href="/expenses/form/<%= expense._id %>"><button type="button">Edit Expense</button></a>
-                        </td>
-                        <td>
-                            <form method="POST" action="/expenses/delete/<%= expense._id %>" style="display:inline;">
-                                <button type="submit">Delete Expense</button>
-                                <input type="hidden" name="_csrf" value="<%= _csrf %>">
-                            </form>
-                        </td>
+    <div class="expenses-container">
+        <form method="GET" action="/expenses" style="display:inline;">
+            <table id="expenses-table">
+                <thead>
+                    <tr id="expenses-table-header">
+                        <th>
+                            <select name="category" class="filter-category">
+                                <option value="">Filter by Category</option>
+                                <option value="Food" <% if (categoryFilter === "Food") { %> selected <% } %>>Food</option>
+                                <option value="Transport" <% if (categoryFilter === "Transport") { %> selected <% } %>>Transport</option>
+                                <option value="Entertainment" <% if (categoryFilter === "Entertainment") { %> selected <% } %>>Entertainment</option>
+                                <option value="Utilities" <% if (categoryFilter === "Utilities") { %> selected <% } %>>Utilities</option>
+                                <option value="Other" <% if (categoryFilter === "Other") { %> selected <% } %>>Other</option>
+                            </select>
+                        </th>
+                        <th>
+                            <input type="number" name="amount" placeholder="Filter by Amount" value="<%= amountFilter %>" class="filter-amount">
+                        </th>
+                        <th colspan="3">
+                            <button type="submit" class="apply-filters-button">Apply Filters</button>
+                            <a href="/expenses" class="clear-filters-link">Clear Filters</a>
+                        </th>
                     </tr>
-                <% }) %>
+                </thead>
+                
+    
+                <tbody>
+                    <% if (expenses && expenses.length) { %>
+                        <% expenses.forEach((expense) => { %>
+                            <tr>
+                                <td><%= expense.category %></td>
+                                <td><%= expense.amount %></td>
+                                <td>
+                                    <a href="/expenses/<%= expense._id %>">
+                                        <button type="button" class="show-expense-button">
+                                            <i class="fas fa-info-circle"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/expenses/form/<%= expense._id %>">
+                                        <button type="button" class="edit-expense-button">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <form method="POST" action="/expenses/delete/<%= expense._id %>" style="display:inline;">
+                                        <button type="submit" class="delete-expense-button">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <input type="hidden" name="_csrf" value="<%= _csrf %>">
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6">No expenses found. Click the "Add New Expense" button above to create one!</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </form>
+    
+       
+        <div class="pagination">
+            <% if (hasPrevPage) { %>
+                <a href="/expenses?page=<%= currentPage - 1 %>&limit=5&category=<%= categoryFilter %>&description=<%= descriptionFilter %>&amount=<%= amountFilter %>">
+                    <i class="fas fa-arrow-left"></i> 
+                </a>
             <% } else { %>
-                <tr>
-                    <td colspan="6">No expenses found. Click the "Add New Expense" button above to create one!</td>
-                </tr>
+                <button disabled>
+                    <i class="fas fa-arrow-left"></i> 
+                </button>
             <% } %>
-        </tbody>        
-    </table>
-</form>
-
-<div class="pagination">
-    <% if (hasPrevPage) { %>
-        <a href="/expenses?page=<%= currentPage - 1 %>&limit=<%= limit %>&category=<%= categoryFilter %>&description=<%= descriptionFilter %>&amount=<%= amountFilter %>">Previous</a>
-    <% } else { %>
-        <button disabled>Previous</button>
-    <% } %>
-
-    <span>Page <%= currentPage %> of <%= totalPages %></span>
-
-    <% if (hasNextPage) { %>
-        <a href="/expenses?page=<%= currentPage + 1 %>&limit=<%= limit %>&category=<%= categoryFilter %>&description=<%= descriptionFilter %>&amount=<%= amountFilter %>">Next</a>
-    <% } else { %>
-        <button disabled>Next</button>
-    <% } %>
-</div>
-
-<%- include("partials/footer.ejs") %>
+        
+            <span>Page <%= currentPage %> of <%= totalPages %></span>
+        
+            <% if (hasNextPage) { %>
+                <a href="/expenses?page=<%= currentPage + 1 %>&limit=5&category=<%= categoryFilter %>&description=<%= descriptionFilter %>&amount=<%= amountFilter %>">
+                    <i class="fas fa-arrow-right"></i> 
+                </a>
+            <% } else { %>
+                <button disabled>
+                    <i class="fas fa-arrow-right"></i> 
+                </button>
+            <% } %>
+        </div>
+        
+    
+    <%- include("partials/footer.ejs") %>
+    
