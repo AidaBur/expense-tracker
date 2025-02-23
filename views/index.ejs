@@ -1,26 +1,29 @@
-<!-- index.ejs -->
-
 <%- include("partials/head.ejs") %>
 <%- include("partials/header.ejs") %>
 
+
 <div class="main-content">
-    <h1>Welcome back! <br>Glad to see you, Again!</h1>
-    <div class="links">
-        <% if (user) { %>
+    <% if (user) { %>
+        <h1>Welcome back!<br>Glad to see you, Again!</h1>
+        <div class="links">
             <a href="/expenses">
                 <button class="main-button">All Expenses</button>
             </a>
             <br>
             <a href="/secretWord" class="secret-link">The Secret Word</a>
-        <% } else { %>
+        </div>
+    <% } else { %>
+        <img src="/images/Work from home.png" alt="Work from Home" class="home-image">
+        <h1>Start saving, start growing.<br>Unlock your future!</h1>
+        <div class="links">
             <a href="/sessions/logon">
-                <button>Logon</button>
+                <button>Login</button>
             </a>
             <a href="/sessions/register">
                 <button>Register</button>
             </a>
-        <% } %>
-    </div>
+        </div>
+    <% } %>
 </div>
 
 <footer>

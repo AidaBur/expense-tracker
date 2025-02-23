@@ -41,7 +41,7 @@
                         <% expenses.forEach((expense) => { %>
                             <tr>
                                 <td><%= expense.category %></td>
-                                <td><%= expense.amount %></td>
+                                <th>$</th<td><%= expense.amount %></td>
                                 <td>
                                     <a href="/expenses/<%= expense._id %>">
                                         <button type="button" class="show-expense-button">

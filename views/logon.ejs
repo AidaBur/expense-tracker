@@ -2,18 +2,20 @@
 
 <%- include("partials/head.ejs") %>
 <%- include("partials/header.ejs") %>
+<h1>Login here</h1>
+<p>Welcome back you’ve been missed!</p>
 <form method="POST">
   <input type="hidden" name="_csrf" value="<%= _csrf %>">  <!-- CSRF Token -->
     <div>
-        <label for="email">Enter your email:</label>
-        <input type="email" id="email" name="email" />
+        <!-- <label for="email">Enter your email:</label> -->
+        <input class="login-input" type="email" id="email" name="email" placeholder="Enter your email" />
     </div>
     <div>
-        <label for="password">Enter your password:</label>
-        <input type="password" id="password" name="password" />
+        <!-- <label for="password">Enter your password:</label> -->
+        <input class="login-input" type="password" id="password" name="password" placeholder="Enter your password" />
     </div>
     <div>
-        <button>Logon</button>
+        <button>Login</button>
         <a href="/">Cancel</a>
     </div>
 </form>

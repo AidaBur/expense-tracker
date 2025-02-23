@@ -1,31 +1,33 @@
 <%- include("partials/head.ejs") %>
 <%- include("partials/header.ejs") %>
 
-<h2><%= expense.category %> - <%= expense.description %></h2>
+<div class="main-content">
+    <h2><th>$</th><td><%= expense.amount %></td></h2>
 
-<!-- Display expense details -->
-<table>
-    <tr>
-        <th>Amount</th>
-        <td><%= expense.amount %></td>
-    </tr>
-    <tr>
-        <th>Category</th>
-        <td><%= expense.category %></td>
-    </tr>
-    <tr>
-        <th>Description</th>
-        <td><%= expense.description %></td>
-    </tr>
-    <tr>
-        <th>Date</th>
-        <td><%= expense.date %></td>
-    </tr>
-</table>
+  <!-- Display expense details -->
+  <table>
+      <tr>
+          <th>Amount</th>
+          <td><%= expense.amount %></td>
+      </tr>
+      <tr>
+          <th>Category</th>
+          <td><%= expense.category %></td>
+      </tr>
+      <tr>
+          <th>Description</th>
+          <td><%= expense.description %></td>
+      </tr>
+      <tr>
+          <th>Date</th>
+          <td><%= expense.date %></td>
+      </tr>
+  </table>
 
-<!-- Back to Expenses List -->
-<a href="/expenses">
-    <button type="button">Back to Expenses</button>
-</a>
+  <!-- Back to Expenses List -->
+  <a href="/expenses">
+      <button type="button">Back to Expenses</button>
+  </a>
+</div>
 
 <%- include("partials/footer.ejs") %>
