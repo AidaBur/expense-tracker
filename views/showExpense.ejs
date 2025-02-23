@@ -2,17 +2,19 @@
 <%- include("partials/header.ejs") %>
 
 <div class="main-content">
+    <img src="/images/show-expense.png" alt="login" class="login-image">
     <h2><th>$</th><td><%= expense.amount %></td></h2>
 
   <!-- Display expense details -->
   <table>
       <tr>
           <th>Amount</th>
-          <td><%= expense.amount %></td>
+          <th>$</th<td><%= expense.amount %></td>
       </tr>
       <tr>
           <th>Category</th>
-          <td><%= expense.category %></td>
+          <td>
+            <%= expense.category %></td>
       </tr>
       <tr>
           <th>Description</th>

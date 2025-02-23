@@ -1,6 +1,6 @@
 <%- include("partials/head.ejs") %>
 <%- include("partials/header.ejs") %>
-
+<img src="/images/expense.png" alt="expense" class="login-image">
 <h2><%= expense ? "Edit Expense" : "Add New Expense" %></h2>
 <form id="expense-form" method="POST" action="<%= expense ? `/expenses/update/${expense._id}` : '/expenses' %>">
     <input type="hidden" name="_csrf" value="<%= _csrf %>"> <!-- CSRF Token -->
