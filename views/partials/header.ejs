@@ -4,7 +4,7 @@
   <% if (user) { %>
       <div class="user-info">
           <i class="fas fa-user-circle"></i>
-          <span>User <strong><%= user.name %></strong></span>
+          <span><strong><%= user.name %></strong></span>
       </div>
       <form method="POST" action="/sessions/logoff" class="logoff-form">
         <input type="hidden" name="_csrf" value="<%= _csrf %>">
