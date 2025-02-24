@@ -1,13 +1,31 @@
-<h1>Welcome to Expense Tracker</h1>
-
-<% if (errors && errors.length > 0) { %>
-  <% errors.forEach((err) => { %>
-    <div style="color: red;">Error: <%= err %></div>
-  <% }) %>
-<% } %>
-
-<% if (info && info.length > 0) { %>
-  <% info.forEach((msg) => { %>
-    <div style="color: green;">Info: <%= msg %></div>
-  <% }) %>
-<% } %>
+<!-- header.ejs -->
+<link rel="stylesheet" href="/styles/styles.css">
+<div class="header-container">
+  <% if (user) { %>
+      <div class="user-info">
+          <i class="fas fa-user-circle"></i>
+          <span>User <strong><%= user.name %></strong></span>
+      </div>
+      <form method="POST" action="/sessions/logoff" class="logoff-form">
+        <input type="hidden" name="_csrf" value="<%= _csrf %>">
+        <button class="logoff-button">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </form>
+  <% } %>
+  <% if (errors) { %>
+      <% errors.forEach((err) => { %>
+          <div>
+              Error: <%= err %>
+          </div>
+      <% }) %>
+  <% } %>
+  <% if (info) { %>
+      <% info.forEach((msg) => { %>
+          <div>
+              Info: <%= msg %>
+          </div>
+      <% }) %>
+  <% } %>
+  <hr />
+</div>

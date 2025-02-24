@@ -1,0 +1,61 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+<img src="/images/expense.png" alt="expense" class="login-image">
+<h2><%= expense ? "Edit Expense" : "Add New Expense" %></h2>
+<form id="expense-form" method="POST" action="<%= expense ? `/expenses/update/${expense._id}` : '/expenses' %>">
+    <input type="hidden" name="_csrf" value="<%= _csrf %>"> <!-- CSRF Token -->
+    
+    
+    <div class="form-row">
+        <div class="form-item">
+            <input type="number" id="amount" name="amount" placeholder="Enter amount" value="<%= expense ? expense.amount : '' %>" required autofocus>
+        </div>
+        <div class="form-item">
+            <select id="category" name="category" required>
+                <option value="">Select a category</option>
+                <option value="Food" <%= expense && expense.category === "Food" ? "selected" : "" %>>Food</option>
+                <option value="Transport" <%= expense && expense.category === "Transport" ? "selected" : "" %>>Transport</option>
+                <option value="Entertainment" <%= expense && expense.category === "Entertainment" ? "selected" : "" %>>Entertainment</option>
+                <option value="Utilities" <%= expense && expense.category === "Utilities" ? "selected" : "" %>>Utilities</option>
+                <option value="Other" <%= expense && expense.category === "Other" ? "selected" : "" %>>Other</option>
+            </select>
+        </div>
+    </div>
+    
+    <!-- Description -->
+    <div class="form-row">
+        <textarea id="description" name="description" rows="4" placeholder="Enter a description" required><%= expense ? expense.description : '' %></textarea>
+    </div>
+    
+    <!-- Date -->
+    <div class="form-row">
+        <input type="date" id="date" name="date" value="<%= expense ? expense.date : '' %>" required>
+    </div>
+    
+    <!-- Buttons -->
+    <button type="submit" id="<%= expense ? 'update-button' : 'create-button' %>">
+        <%= expense ? "Update" : "Create" %>
+    </button>
+    
+    <!-- Cancel Button -->
+    <a href="/expenses">
+        <button type="button">Cancel</button>
+    </a>
+</form>
+
+
+<!-- Script for conditional confirmation -->
+<script>
+    // Add confirmation only for updating an expense
+    const updateButton = document.getElementById('update-button');
+    if (updateButton) {
+        updateButton.addEventListener('click', function(event) {
+            const confirmation = confirm("Are you sure you want to update this expense?");
+            if (!confirmation) {
+                event.preventDefault(); // Prevent form submission if canceled
+            }
+        });
+    }
+</script>
+
+<%- include("partials/footer.ejs") %>
