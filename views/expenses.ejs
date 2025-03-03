@@ -11,7 +11,7 @@
     </div>
 
     <div class="expenses-container">
-        <form method="GET" action="/expenses" style="display:inline;">
+        <!-- <form method="GET" action="/expenses" style="display:inline;"> -->
             <table id="expenses-table">
                 <thead>
                     <tr id="expenses-table-header">
@@ -41,7 +41,7 @@
                         <% expenses.forEach((expense) => { %>
                             <tr>
                                 <td><%= expense.category %></td>
-                                <th>$</th<td><%= expense.amount %></td>
+                                <td>$<%= expense.amount %></td>
                                 <td>
                                     <a href="/expenses/<%= expense._id %>">
                                         <button type="button" class="show-expense-button">
