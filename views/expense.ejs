@@ -29,7 +29,9 @@
     
     <!-- Date -->
     <div class="form-row">
-        <input type="date" id="date" name="date" value="<%= expense ? expense.date : '' %>" required>
+        <input type="date" id="date" name="date" 
+       value="<%= expense ? new Date(expense.date).toISOString().split('T')[0] : '' %>" 
+       required>
     </div>
     
     <!-- Buttons -->
