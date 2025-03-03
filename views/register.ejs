@@ -1,0 +1,51 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+
+
+<img src="/images/register.png" alt="login" class="login-image">
+<h1>Create Account</h1>
+<p>Create an account to start tracking all your expenses<br>and managing your finances!</p>
+<form method="POST">
+  <input type="hidden" name="_csrf" value="<%= _csrf %>" /> <!-- CSRF Token -->
+  <div>
+    <input
+      class="login-input"
+      type="text"
+      id="name"
+      name="name"
+      placeholder="Enter your name"
+    />
+  </div>
+  <div>
+    <input
+      class="login-input"
+      type="email"
+      id="email"
+      name="email"
+      placeholder="Enter your email"
+    />
+  </div>
+  <div>
+    <input
+      class="login-input"
+      type="password"
+      id="password"
+      name="password"
+      placeholder="Enter your password"
+    />
+  </div>
+  <div>
+    <input
+      class="login-input"
+      type="password"
+      id="password1"
+      name="password1"
+      placeholder="Confirm your password"
+    />
+  </div>
+  <div>
+    <button>Register</button>
+    <a href="/">Cancel</a>
+  </div>
+</form>
+<%- include("partials/footer.ejs") %>
