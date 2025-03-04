@@ -11,24 +11,32 @@ const registerDo = async (req, res, next) => {
     
     if (req.body.password !== req.body.password1) {
         req.flash("error", "The passwords entered do not match.");
-        return res.render("register", { errors: req.flash("error") });
+        return res.status(400).render("register", { errors: req.flash("error") });
     }
+
     try {
-        
         await User.create(req.body);
     } catch (e) {
         
         if (e.constructor.name === "ValidationError") {
-            parseVErr(e, req);  
-        } else if (e.name === "MongoServerError" && e.code === 11000) {
+            parseVErr(e, req);
+            return res.status(400).render("register", { errors: req.flash("error") });
+        } 
+        
+        
+        else if (e.name === "MongoServerError" && e.code === 11000) {
             req.flash("error", "That email address is already registered.");
-        } else {
-            return next(e);  
-        }
-        return res.render("register", { errors: req.flash("error") });
+            return res.status(400).render("register", { errors: req.flash("error") });
+        } 
+        
+        
+        return next(e);
     }
-    res.redirect("/");  
+
+    
+    res.redirect("/");
 };
+
 
 const logoff = (req, res) => {
   req.session.destroy(function (err) {
